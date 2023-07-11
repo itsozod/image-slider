@@ -1,13 +1,13 @@
+/* eslint-disable no-plusplus */
 const slider = document.querySelector(".slider");
 const leftArrow = document.querySelector(".left");
 const rightArrow = document.querySelector(".right");
 const controlBullets = document.querySelectorAll(".controls li");
 const indicatorParents = document.querySelector(".controls ul");
 
-// leftArrow.style.opacity = "0.7";
-// rightArrow.style.opacity = "1";
+leftArrow.style.pointerEvents = "none";
+leftArrow.style.opacity = "0.6";
 
-// eslint-disable-next-line prefer-const
 let sectionIndex = 0;
 
 function setIndex() {
@@ -16,48 +16,64 @@ function setIndex() {
   // eslint-disable-next-line prefer-template
   slider.style.transform = "translate(" + sectionIndex * -25 + "%)";
 }
+
+// event lsutener for bullets at the bottom
 controlBullets.forEach((indicator, index) => {
-    indicator.addEventListener("click", () => {
-        sectionIndex = index;
-        // const selectedBullets = document.querySelector(".controls .selected");
-        // selectedBullets.classList.remove("selected");
-        setIndex();
-        indicator.classList.add("selected");
-        // eslint-disable-next-line prefer-template
-        // slider.style.transform = "translate(" + index * -25 + "%)";
+  indicator.addEventListener("click", () => {
+    if (sectionIndex !== index) {
+      sectionIndex = index;
+      setIndex();
+      indicator.classList.add("selected");
 
-    })
+      // Enable or disable arrows based on sectionIndex
+      if (sectionIndex === 0) {
+        leftArrow.style.pointerEvents = "none";
+        leftArrow.style.opacity = "0.6";
+        rightArrow.style.pointerEvents = "auto";
+        rightArrow.style.opacity = "1";
+      } else if (sectionIndex === controlBullets.length - 1) {
+        leftArrow.style.pointerEvents = "auto";
+        leftArrow.style.opacity = "1";
+        rightArrow.style.pointerEvents = "none";
+        rightArrow.style.opacity = "0.6";
+      } else {
+        leftArrow.style.pointerEvents = "auto";
+        leftArrow.style.opacity = "1";
+        rightArrow.style.pointerEvents = "auto";
+        rightArrow.style.opacity = "1";
+      }
+    }
+  });
 });
 
+// event listener for left arow
 leftArrow.addEventListener("click", () => {
-  // eslint-disable-next-line prefer-template, operator-assignment
-  // sectionIndex = (sectionIndex > 0) ? sectionIndex - 1 : 0;
-if (sectionIndex > 0) {
-    sectionIndex -= 1;
-  } else {
-    sectionIndex = 0;
+  if (sectionIndex > 0) {
+    // eslint-disable-next-line no-plusplus
+    sectionIndex--;
+    rightArrow.style.pointerEvents = "auto";
+    rightArrow.style.opacity = "1";
+    if (sectionIndex === 0) {
+      leftArrow.style.pointerEvents = "none";
+      leftArrow.style.opacity = "0.6";
+    }
   }
-  // const selectedBullets = document.querySelector(".controls .selected");
-  // selectedBullets.classList.remove("selected");
   setIndex();
   indicatorParents.children[sectionIndex].classList.add("selected");
-  // eslint-disable-next-line prefer-template
-  // slider.style.transform = "translate(" + sectionIndex * -25 + "%)";
 });
 
+// event listener for right arrow
 rightArrow.addEventListener("click", () => {
-  // eslint-disable-next-line prefer-template, operator-assignment
-  // sectionIndex = (sectionIndex < 3) ? sectionIndex + 1 : 3;
-if (sectionIndex < 3) {
-    sectionIndex += 1;
-  } else {
-    sectionIndex = 3;
+  if (sectionIndex < controlBullets.length - 1) {
+    // eslint-disable-next-line no-plusplus
+    sectionIndex++;
+    leftArrow.style.pointerEvents = "auto";
+    leftArrow.style.opacity = "1";
+    if (sectionIndex === controlBullets.length - 1) {
+      rightArrow.style.pointerEvents = "none";
+      rightArrow.style.opacity = "0.6";
+    }
   }
-  // const selectedBullets = document.querySelector(".controls .selected");
-  // selectedBullets.classList.remove("selected");
   setIndex();
   indicatorParents.children[sectionIndex].classList.add("selected");
-
-  // eslint-disable-next-line prefer-template
-  // slider.style.transform = "translate(" +  sectionIndex * -25 + "%)";
 });
