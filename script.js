@@ -13,13 +13,6 @@ let sectionIndex = 0;
 let touchStartX = 0;
 let touchEndX = 0;
 
-// function setIndex() {
-//   const selectedBullets = document.querySelector(".controls .selected");
-//   selectedBullets.classList.remove("selected");
-//   // eslint-disable-next-line prefer-template
-//   slider.style.transform = "translate(" + sectionIndex * -25 + "%)";
-// }
-
 function setIndex() {
   const selectedBullets = document.querySelector(".controls .selected");
   selectedBullets.classList.remove("selected");
@@ -131,4 +124,3 @@ rightArrow.addEventListener("click", () => {
   setIndex();
   indicatorParents.children[sectionIndex].classList.add("selected");
 });
-
