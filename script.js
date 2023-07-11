@@ -10,12 +10,66 @@ leftArrow.style.opacity = "0.6";
 
 let sectionIndex = 0;
 
+let touchStartX = 0;
+let touchEndX = 0;
+
+// function setIndex() {
+//   const selectedBullets = document.querySelector(".controls .selected");
+//   selectedBullets.classList.remove("selected");
+//   // eslint-disable-next-line prefer-template
+//   slider.style.transform = "translate(" + sectionIndex * -25 + "%)";
+// }
+
 function setIndex() {
   const selectedBullets = document.querySelector(".controls .selected");
   selectedBullets.classList.remove("selected");
-  // eslint-disable-next-line prefer-template
-  slider.style.transform = "translate(" + sectionIndex * -25 + "%)";
+  slider.style.transform = `translateX(-${sectionIndex * 25}%)`;
+  controlBullets[sectionIndex].classList.add("selected");
 }
+
+// Handle swipe gesture
+function handleSwipe() {
+  if (touchEndX < touchStartX) {
+    // Swiped left
+    sectionIndex = Math.min(sectionIndex + 1, controlBullets.length - 1);
+  } else if (touchEndX > touchStartX) {
+    // Swiped right
+    sectionIndex = Math.max(sectionIndex - 1, 0);
+  }
+  if (sectionIndex === 0) {
+    leftArrow.style.pointerEvents = "none";
+    leftArrow.style.opacity = "0.6";
+    rightArrow.style.pointerEvents = "auto";
+    rightArrow.style.opacity = "1";
+  } else if (sectionIndex === controlBullets.length - 1) {
+    leftArrow.style.pointerEvents = "auto";
+    leftArrow.style.opacity = "1";
+    rightArrow.style.pointerEvents = "none";
+    rightArrow.style.opacity = "0.6";
+  } else {
+    leftArrow.style.pointerEvents = "auto";
+    leftArrow.style.opacity = "1";
+    rightArrow.style.pointerEvents = "auto";
+    rightArrow.style.opacity = "1";
+  }
+  // Update the slider
+  setIndex();
+}
+// Listen for touch start event
+slider.addEventListener("touchstart", (event) => {
+  touchStartX = event.touches[0].clientX;
+});
+
+// Listen for touch end event
+slider.addEventListener("touchend", (event) => {
+  touchEndX = event.changedTouches[0].clientX;
+  handleSwipe();
+});
+
+// Prevent scrolling when touching the slider
+slider.addEventListener("touchmove", (event) => {
+  event.preventDefault();
+});
 
 // event lsutener for bullets at the bottom
 controlBullets.forEach((indicator, index) => {
@@ -77,3 +131,4 @@ rightArrow.addEventListener("click", () => {
   setIndex();
   indicatorParents.children[sectionIndex].classList.add("selected");
 });
+
