@@ -1,0 +1,65 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: bisque;
+}
+.slider-container {
+    width: 50%;
+    margin: 10px auto;
+}
+.carousel {
+    border: 2px solid grey;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+}
+.slider {
+    height: 100%;
+    display: flex;
+    width: 400%;
+    transition: all 0.3s;
+}
+.slider section {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.controls .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+.controls .arrow img {
+    width: 40px;
+}
+.arrow.left {
+    left: 10px;
+}
+.arrow.right {
+    right: 10px;
+}
+.controls ul {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%);
+    list-style-type: none;
+    display: flex;
+}
+.controls ul li {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #333;
+    border-radius: 50px;
+    margin: 10px;
+    background-color: #333;
+    cursor: pointer;
+}
+.controls ul li.selected {
+    background-color: transparent;
+}
